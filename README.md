@@ -1,6 +1,6 @@
 # 🛡️ ML-Based Intrusion Detection System (CIC-IDS2017)
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![Sklearn](https://img.shields.io/badge/Library-Scikit_Learn-orange) ![Status](https://img.shields.io/badge/Status-Prototype-green)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![Sklearn](https://img.shields.io/badge/Library-Scikit_Learn-orange)
 
 ## 📖 Overview
 
