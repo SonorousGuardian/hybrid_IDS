@@ -1,79 +1,56 @@
-# 🛡️ Hybrid-IDS: Suricata + Machine Learning
+# 🛡️ ML-Based Intrusion Detection System (CIC-IDS2017)
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Python](https://img.shields.io/badge/python-3.8%2B-blue) ![Suricata](https://img.shields.io/badge/Suricata-IDS-orange) ![Status](https://img.shields.io/badge/status-Active-green)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![Sklearn](https://img.shields.io/badge/Library-Scikit_Learn-orange) ![Status](https://img.shields.io/badge/Status-Prototype-green)
 
 ## 📖 Overview
 
-With the rapid expansion of network infrastructure, organizations face increasing challenges in safeguarding sensitive information. **Hybrid-IDS** is a robust Network Intrusion Detection System (NIDS) designed to bridge the gap between traditional signature-based detection and modern anomaly-based analysis.
+This project implements a Network Intrusion Detection System (NIDS) using the **CIC-IDS2017 dataset**. The system is designed to classify network traffic as **Benign** or specific attack types (e.g., **DDoS, Port Scan, Brute Force**) using Machine Learning.
 
-This project combines the real-time packet analysis capabilities of **Suricata** (an open-source IDS/IPS engine) with the predictive power of **Machine Learning (ML)** algorithms. By leveraging Suricata's rule-based detection for known threats and integrating it with ML models trained to spot anomalous behaviors, this system aims to:
-* Improve detection accuracy.
-* Significantly reduce false positives.
-* Adapt to evolving, zero-day cyber threats.
+The pipeline includes extensive data preprocessing, memory optimization, dimensionality reduction using **Incremental PCA**, and class balancing using **SMOTE**, culminating in a **Random Forest** classification model.
 
-## 🚀 Key Features
+## 📂 Dataset
 
-* **Hybrid Detection Engine:** Merges signature-based inspection (Suricata) with anomaly-based detection (ML) for comprehensive coverage.
-* **Real-Time Monitoring:** Continuous analysis of network traffic flow to detect unauthorized access immediately.
-* **Advanced Threat Detection:** Capable of identifying DDoS attacks, malware infiltration, and brute-force attempts.
-* **Reduced Noise:** ML models cross-reference alerts to lower false-positive rates, ensuring only critical threats are flagged.
-* **Scalable Architecture:** Designed to operate efficiently in both controlled testbeds and larger network environments.
+The project utilizes the **CIC-IDS2017** dataset developed by the Canadian Institute for Cybersecurity.
+**Required Files:**
+* `Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv`
+* `Tuesday-WorkingHours.pcap_ISCX.csv`
+* `Wednesday-workingHours.pcap_ISCX.csv`
+* `Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv`
+* `Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv`
+* `Friday-WorkingHours-Morning.pcap_ISCX.csv`
+* `Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv`
 
-## 🏗️ Architecture
+> **Note:** These files must be placed in the root directory (or update the paths in the script) before running.
 
-The system operates in two parallel streams:
-1.  **Suricata Module:** Monitors live traffic and applies predefined rules (signatures) to catch known attack patterns.
-2.  **ML Module:** Analyzes flow statistics and features to identify deviations from normal baselines (anomaly detection).
+## ⚙️ Technical Pipeline
 
-*(Optional: Add a diagram here showing Traffic -> Suricata / ML Model -> Aggregator -> Alert Dashboard)*
+### 1. Data Cleaning & Optimization
+* **Concatenation:** Merges 8 separate daily traffic logs into a single dataframe.
+* **Sanitization:** Strips whitespace from columns, removes duplicates, and handles `Infinity`/`NaN` values using median imputation.
+* **Memory Optimization:** Downcasts `float64` to `float32` and `int64` to `int32` to significantly reduce RAM usage during processing.
 
-## 🛠️ Tech Stack
+### 2. Feature Engineering
+* **Label Mapping:** Groups granular labels into broader categories (e.g., `DoS Hulk`, `DoS GoldenEye` → `DoS`).
+* **Correlation Analysis:** Identifies features highly correlated with the target variable.
+* **Outlier Detection:** Uses the Interquartile Range (IQR) method to analyze feature distribution.
+* **Standardization:** Scales features using `StandardScaler`.
 
-* **Core Engine:** [Suricata](https://suricata.io/)
-* **Programming Language:** Python
-* **Machine Learning:** Scikit-learn / TensorFlow / PyTorch (Update based on your actual library)
-* **Data Processing:** Pandas, NumPy
-* **Logging/Visualization:** ELK Stack (Elasticsearch, Logstash, Kibana) or similar (Update if applicable)
+### 3. Dimensionality Reduction
+* **Incremental PCA:** Reduces the feature space by 50% (retaining principal components) to improve training speed without overwhelming memory.
 
-## 📊 Performance Metrics
+### 4. Class Balancing
+* **Undersampling:** Reduces the overwhelming "Benign" class.
+* **SMOTE (Synthetic Minority Over-sampling Technique):** Upsamples minority attack classes to ensure the model isn't biased toward majority classes.
 
-We evaluate the system using standard cybersecurity metrics to ensure reliability:
-* **Detection Rate (DR):** The percentage of actual attacks detected.
-* **False Positive Rate (FPR):** The frequency of normal traffic flagged as malicious.
-* **System Efficiency:** CPU and Memory usage during peak traffic analysis.
+### 5. Modeling
+* **Algorithms:**
+    * **Decision Tree:** Used for initial cross-validation and baseline testing (Max Depth 6 & 8).
+    * **Random Forest:** The final deployed model (100 estimators).
+* **Evaluation:** Outputs Confusion Matrix and Classification Report (Precision, Recall, F1-Score).
 
-## ⚡ Getting Started
+## 🛠️ Installation & Usage
 
 ### Prerequisites
-* Linux Environment (Ubuntu/Debian recommended)
-* Python 3.8+
-* Suricata installed and configured
-
-### Installation
-
-1.  **Clone the repository**
-    ```bash
-    git clone [https://github.com/yourusername/Hybrid-IDS.git](https://github.com/yourusername/Hybrid-IDS.git)
-    cd Hybrid-IDS
-    ```
-
-2.  **Install dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3.  **Configure Suricata**
-    Ensure your `suricata.yaml` is pointing to the correct network interface.
-
-4.  **Run the System**
-    ```bash
-    python main.py
-    ```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Install the required Python libraries:
+```bash
+pip install pandas numpy seaborn matplotlib scikit-learn imbalanced-learn
