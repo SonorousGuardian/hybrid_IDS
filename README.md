@@ -1,8 +1,79 @@
-# Hybrid-IDS
-With the rapid expansion of network infrastructure and an increasing volume of cyber threats, organizations face challenges in safeguarding sensitive information from unauthorized access and malicious attacks. A robust Network Intrusion Detection System (NIDS) is essential for identifying and mitigating these threats.
-This project focuses on developing a hybrid Network Intrusion Detection System (NIDS) that combines the real-time packet analysis capabilities of Suricata, an open-source IDS/IPS engine, with the predictive power of Machine Learning (ML) algorithms. By leveraging Suricata's rule-based detection system and integrating it with ML-based anomaly detection, the proposed system aims to improve detection accuracy, reduce false positives, and adapt to evolving cyber threats.
-The Suricata component of the system monitors network traffic, applying predefined rules to detect known attack patterns and generate alerts. In parallel, the Machine Learning module is trained on labeled network traffic datasets to identify anomalous behaviors that may indicate previously unknown or sophisticated attacks. The integration of these two approaches results in a hybrid system capable of addressing both signature-based and anomaly-based detection limitations.
-This project also emphasizes the practical implementation of the system in a controlled network environment, showcasing its ability to detect a wide range of threats, such as Distributed Denial-of-Service (DDoS) attacks, malware infiltration, and unauthorized access attempts. Performance metrics, including detection rate, false-positive rate, and system efficiency, are evaluated to validate the effectiveness of the proposed hybrid solution.
-By merging the strengths of Suricata and Machine Learning, this project contributes to the development of a more adaptive, efficient, and scalable intrusion detection system, addressing the growing need for proactive network security measures in modern computing environments.
+# 🛡️ Hybrid-IDS: Suricata + Machine Learning
 
-<img width="777" height="750" alt="image" src="https://github.com/user-attachments/assets/9f81ec77-0403-4dae-812a-af27e679b21a" />
+![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Python](https://img.shields.io/badge/python-3.8%2B-blue) ![Suricata](https://img.shields.io/badge/Suricata-IDS-orange) ![Status](https://img.shields.io/badge/status-Active-green)
+
+## 📖 Overview
+
+With the rapid expansion of network infrastructure, organizations face increasing challenges in safeguarding sensitive information. **Hybrid-IDS** is a robust Network Intrusion Detection System (NIDS) designed to bridge the gap between traditional signature-based detection and modern anomaly-based analysis.
+
+This project combines the real-time packet analysis capabilities of **Suricata** (an open-source IDS/IPS engine) with the predictive power of **Machine Learning (ML)** algorithms. By leveraging Suricata's rule-based detection for known threats and integrating it with ML models trained to spot anomalous behaviors, this system aims to:
+* Improve detection accuracy.
+* Significantly reduce false positives.
+* Adapt to evolving, zero-day cyber threats.
+
+## 🚀 Key Features
+
+* **Hybrid Detection Engine:** Merges signature-based inspection (Suricata) with anomaly-based detection (ML) for comprehensive coverage.
+* **Real-Time Monitoring:** Continuous analysis of network traffic flow to detect unauthorized access immediately.
+* **Advanced Threat Detection:** Capable of identifying DDoS attacks, malware infiltration, and brute-force attempts.
+* **Reduced Noise:** ML models cross-reference alerts to lower false-positive rates, ensuring only critical threats are flagged.
+* **Scalable Architecture:** Designed to operate efficiently in both controlled testbeds and larger network environments.
+
+## 🏗️ Architecture
+
+The system operates in two parallel streams:
+1.  **Suricata Module:** Monitors live traffic and applies predefined rules (signatures) to catch known attack patterns.
+2.  **ML Module:** Analyzes flow statistics and features to identify deviations from normal baselines (anomaly detection).
+
+*(Optional: Add a diagram here showing Traffic -> Suricata / ML Model -> Aggregator -> Alert Dashboard)*
+
+## 🛠️ Tech Stack
+
+* **Core Engine:** [Suricata](https://suricata.io/)
+* **Programming Language:** Python
+* **Machine Learning:** Scikit-learn / TensorFlow / PyTorch (Update based on your actual library)
+* **Data Processing:** Pandas, NumPy
+* **Logging/Visualization:** ELK Stack (Elasticsearch, Logstash, Kibana) or similar (Update if applicable)
+
+## 📊 Performance Metrics
+
+We evaluate the system using standard cybersecurity metrics to ensure reliability:
+* **Detection Rate (DR):** The percentage of actual attacks detected.
+* **False Positive Rate (FPR):** The frequency of normal traffic flagged as malicious.
+* **System Efficiency:** CPU and Memory usage during peak traffic analysis.
+
+## ⚡ Getting Started
+
+### Prerequisites
+* Linux Environment (Ubuntu/Debian recommended)
+* Python 3.8+
+* Suricata installed and configured
+
+### Installation
+
+1.  **Clone the repository**
+    ```bash
+    git clone [https://github.com/yourusername/Hybrid-IDS.git](https://github.com/yourusername/Hybrid-IDS.git)
+    cd Hybrid-IDS
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Configure Suricata**
+    Ensure your `suricata.yaml` is pointing to the correct network interface.
+
+4.  **Run the System**
+    ```bash
+    python main.py
+    ```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
